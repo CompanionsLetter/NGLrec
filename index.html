@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NGLcustom - Generate Response</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Forest+Trophy+Textured&display=swap" rel="stylesheet">
+    <!-- Updated html2canvas link -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #0d0d0d, #1e1e1e);
+            font-family: 'Forest Trophy Textured', cursive;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .input-box {
+            background: rgba(41, 41, 41, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .input-box:hover {
+            transform: translateY(-2px);
+        }
+
+        h1 {
+            font-size: 28px;
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+        }
+
+        textarea {
+            width: 100%;
+            height: 80px;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            resize: none;
+            transition: background-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        button {
+            background-color: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: 10px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #e0e0e0;
+            transform: translateY(-2px);
+        }
+
+        .screenshot-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .screenshot-title {
+            background: linear-gradient(135deg, #f58529, #f77737, #d62976, #962fbf, #4f5bd5);
+            color: white;
+            padding: 10px;
+            border-radius: 10px 10px 0 0;
+            font-size: 24px;
+            line-height: 1.2;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .screenshot-message {
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 0 0 10px 10px;
+            background: rgba(41, 41, 41, 0.9);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .close-button {
+            margin-top: 15px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #f44336;
+            color: #ffffff;
+            transition: background-color 0.3s ease;
+        }
+
+        .close-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .download-button {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: #ffffff;
+            transition: background-color 0.3s ease;
+            display: none;
+        }
+
+        .download-button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="input-box">
+        <h1>NGL.custom</h1>
+        <textarea id="messageInput" placeholder="Scrieți mesajul anonim aici..."></textarea>
+        <button id="generateButton">Generați Layout</button>
+    </div>
+
+    <!-- Screenshot Layout -->
+    <div class="screenshot-box" id="screenshotBox">
+        <div class="screenshot-title">
+            trimite-mi<br>
+            mesaje anonime!
+        </div>
+        <div class="screenshot-message" id="screenshotMessage">
+            Aici va fi mesajul anonim.
+        </div>
+        <button class="close-button" id="closeButton">Închide</button>
+        <button class="download-button" id="downloadButton">Descarcă Imagine</button>
+    </div>
+
+    <script>
+        document.getElementById('generateButton').addEventListener('click', function() {
+            const messageInput = document.getElementById('messageInput').value;
+            const screenshotMessage = document.getElementById('screenshotMessage');
+
+            // Set the anonymous message display
+            screenshotMessage.textContent = messageInput || "Aici va fi mesajul anonim.";
+            document.getElementById('screenshotBox').style.display = 'block'; // Show the screenshot box
+            
+            // Hide the input box
+            document.querySelector('.input-box').style.display = 'none'; // Hide the input box
+            document.getElementById('downloadButton').style.display = 'block'; // Show download button
+        });
+
+        // Close the screenshot layout
+        document.getElementById('closeButton').addEventListener('click', function() {
+            document.getElementById('screenshotBox').style.display = 'none'; // Hide the screenshot box
+            document.querySelector('.input-box').style.display = 'flex'; // Show the input box again
+            document.getElementById('messageInput').value = ''; // Clear the input
+            document.getElementById('downloadButton').style.display = 'none'; // Hide download button
+        });
+
+        // Download image functionality
+        document.getElementById('downloadButton').addEventListener('click', function() {
+            html2canvas(document.getElementById('screenshotBox')).then(canvas => {
+                const link = document.createElement('a');
+                link.href = canvas.toDataURL("image/png");
+                link.download = 'screenshot.png';
+                link.click();
+            });
+        });
+    </script>
+</body>
+</html>
