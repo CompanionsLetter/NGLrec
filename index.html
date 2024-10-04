@@ -6,138 +6,120 @@
     <title>NGLcustom - Generate Response</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- Updated html2canvas link -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: linear-gradient(135deg, #0d0d0d, #1e1e1e);
-            font-family: 'Forest Trophy Textured', cursive;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-            text-align: center;
-        }
+     body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #0d0d0d, #1e1e1e); /* Background gradient */
+        color: #ffffff; /* Default text color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden; /* Prevent scrolling */
+        text-align: center; /* Center text */
+        font-family: cursive; /* Default font family */
+    }
 
-        .input-box {
-            background: rgba(41, 41, 41, 0.8);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            transition: transform 0.3s ease;
-        }
+    .input-box {
+        background: rgba(41, 41, 41, 0.8); /* Semi-transparent background for input box */
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+        width: 90%; /* Responsive width */
+        max-width: 400px; /* Max width for larger screens */
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        transition: transform 0.3s ease; /* Smooth transform */
+    }
 
-        .input-box:hover {
-            transform: translateY(-2px);
-        }
+    .input-box:hover {
+        transform: translateY(-2px); /* Slight lift on hover */
+    }
 
-        h1 {
-            font-size: 28px;
-            text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-        }
+    h1 {
+        font-size: 28px; /* Title size */
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.5); /* Enhanced shadow for title */
+    }
 
-        textarea {
-            width: 100%;
-            height: 80px;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            resize: none;
-            transition: background-color 0.3s ease;
-        }
+    textarea {
+        width: 100%;
+        height: 80px; /* Height for the input area */
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        background-color: rgba(255, 255, 255, 0.1); /* Transparent background */
+        color: #ffffff;
+        resize: none; /* Disable resizing */
+        transition: background-color 0.3s ease; /* Smooth background transition */
+    }
 
-        textarea:focus {
-            outline: none;
-            background-color: rgba(255, 255, 255, 0.2);
-        }
+    textarea:focus {
+        outline: none; /* Remove default outline */
+        background-color: rgba(255, 255, 255, 0.2); /* Change background on focus */
+    }
 
-        button {
-            background-color: #ffffff;
-            color: #000000;
-            border: none;
-            border-radius: 10px;
-            padding: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-        }
+    button {
+        background-color: #ffffff; /* Button color */
+        color: #000000;
+        border: none;
+        border-radius: 10px;
+        padding: 10px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, transform 0.2s ease; /* Added transition for transform */
+    }
 
-        button:hover {
-            background-color: #e0e0e0;
-            transform: translateY(-2px);
-        }
+    button:hover {
+        background-color: #e0e0e0; /* Slightly darker on hover */
+        transform: translateY(-2px); /* Slight lift on hover */
+    }
 
-        .screenshot-box {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            width: 90%;
-            max-width: 400px;
-        }
+    .screenshot-box {
+        display: none; /* Hidden initially */
+        position: fixed;
+        top: 50%; /* Center vertically */
+        left: 50%; /* Center horizontally */
+        transform: translate(-50%, -50%); /* Adjust position */
+        z-index: 10; /* Above other elements */
+        width: 90%; /* Responsive width */
+        max-width: 400px; /* Max width for larger screens */
+    }
 
-        .screenshot-title {
-            background: linear-gradient(135deg, #f58529, #f77737, #d62976, #962fbf, #4f5bd5);
-            color: white;
-            padding: 10px;
-            border-radius: 10px 10px 0 0;
-            font-size: 24px;
-            line-height: 1.2;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+    .screenshot-title {
+        background: linear-gradient(135deg, #f58529, #f77737, #d62976, #962fbf, #4f5bd5); /* Instagram colors */
+        color: white; /* Text color */
+        padding: 10px; /* Padding for title */
+        border-radius: 10px 10px 0 0; /* Rounded corners at the top */
+        font-size: 24px; /* Title size */
+        line-height: 1.2; /* Adjust line height for better spacing */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for title */
+    }
 
-        .screenshot-message {
-            font-size: 20px;
-            padding: 10px;
-            border-radius: 0 0 10px 10px;
-            background: rgba(41, 41, 41, 0.9);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
+    .screenshot-message {
+        font-size: 20px; /* Message size */
+        padding: 10px; /* Padding for the message */
+        border-radius: 0 0 10px 10px; /* Rounded corners at the bottom */
+        background: rgba(41, 41, 41, 0.9); /* Darker background for the message */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Subtle shadow for message */
+    }
 
-        .close-button {
-            margin-top: 15px;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #f44336;
-            color: #ffffff;
-            transition: background-color 0.3s ease;
-        }
+    .close-button {
+        margin-top: 15px; /* Space above close button */
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #f44336; /* Red color for close button */
+        color: #ffffff; /* Text color */
+        transition: background-color 0.3s ease; /* Smooth background transition */
+    }
 
-        .close-button:hover {
-            background-color: #d32f2f;
-        }
+    .close-button:hover {
+        background-color: #d32f2f; /* Darker red on hover */
+    }
 
-        .download-button {
-            margin-top: 10px;
-            padding: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            background-color: #4caf50;
-            color: #ffffff;
-            transition: background-color 0.3s ease;
-            display: none;
-        }
-
-        .download-button:hover {
-            background-color: #388e3c;
-        }
     </style>
 </head>
 <body>
@@ -157,7 +139,6 @@
             Aici va fi mesajul anonim.
         </div>
         <button class="close-button" id="closeButton">Închide</button>
-        <button class="download-button" id="downloadButton">Descarcă Imagine</button>
     </div>
 
     <script>
@@ -171,7 +152,6 @@
             
             // Hide the input box
             document.querySelector('.input-box').style.display = 'none'; // Hide the input box
-            document.getElementById('downloadButton').style.display = 'block'; // Show download button
         });
 
         // Close the screenshot layout
@@ -179,17 +159,6 @@
             document.getElementById('screenshotBox').style.display = 'none'; // Hide the screenshot box
             document.querySelector('.input-box').style.display = 'flex'; // Show the input box again
             document.getElementById('messageInput').value = ''; // Clear the input
-            document.getElementById('downloadButton').style.display = 'none'; // Hide download button
-        });
-
-        // Download image functionality
-        document.getElementById('downloadButton').addEventListener('click', function() {
-            html2canvas(document.getElementById('screenshotBox')).then(canvas => {
-                const link = document.createElement('a');
-                link.href = canvas.toDataURL("image/png");
-                link.download = 'screenshot.png';
-                link.click();
-            });
         });
     </script>
 </body>
